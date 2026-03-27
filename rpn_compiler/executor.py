@@ -1,5 +1,5 @@
 import operator
-from rpn_compiler.lexer import Token, TokenType
+from rpn_compiler.lexer import TokenType
 
 OPERATORS = {
     "+": operator.add,

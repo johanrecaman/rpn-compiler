@@ -11,7 +11,6 @@ class TokenType(Enum):
     MEM = "mem"
     ERROR = "error"
 
-
 @dataclass
 class Token:
     token_type: TokenType
@@ -21,7 +20,8 @@ class Token:
 def save_token(token_type, value, tokens):
     tokens.append(Token(token_type, value))
 
-
+#(2.12 4 +)
+#buffer:
 def initial_state(char, buffer, tokens):
     match char:
         case "(" | ")":
