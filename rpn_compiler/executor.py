@@ -1,7 +1,7 @@
 # Integrantes (ordem alfabética):
 #   Johan Recaman - johanrecaman
 #   Nicole Guarnieri - nick11nic
-# Grupo: (alterar para o nome do grupo no Canvas)
+# Grupo: ra1-55
 
 # ATENÇÃO: este módulo serve APENAS para validação/testes do analisador léxico
 # e verificação de semântica das expressões. Ele NÃO faz parte da solução

@@ -1,0 +1,306 @@
+[
+  {
+    "type": "parenthesis",
+    "value": "("
+  },
+  {
+    "type": "float",
+    "value": "10.0"
+  },
+  {
+    "type": "float",
+    "value": "5.0"
+  },
+  {
+    "type": "operator",
+    "value": "+"
+  },
+  {
+    "type": "parenthesis",
+    "value": ")"
+  },
+  {
+    "type": "parenthesis",
+    "value": "("
+  },
+  {
+    "type": "float",
+    "value": "3.0"
+  },
+  {
+    "type": "float",
+    "value": "2.0"
+  },
+  {
+    "type": "operator",
+    "value": "*"
+  },
+  {
+    "type": "parenthesis",
+    "value": ")"
+  },
+  {
+    "type": "parenthesis",
+    "value": "("
+  },
+  {
+    "type": "int",
+    "value": "0"
+  },
+  {
+    "type": "keyword",
+    "value": "RES"
+  },
+  {
+    "type": "parenthesis",
+    "value": ")"
+  },
+  {
+    "type": "parenthesis",
+    "value": "("
+  },
+  {
+    "type": "parenthesis",
+    "value": "("
+  },
+  {
+    "type": "int",
+    "value": "0"
+  },
+  {
+    "type": "keyword",
+    "value": "RES"
+  },
+  {
+    "type": "parenthesis",
+    "value": ")"
+  },
+  {
+    "type": "float",
+    "value": "2.0"
+  },
+  {
+    "type": "operator",
+    "value": "+"
+  },
+  {
+    "type": "parenthesis",
+    "value": ")"
+  },
+  {
+    "type": "parenthesis",
+    "value": "("
+  },
+  {
+    "type": "int",
+    "value": "0"
+  },
+  {
+    "type": "keyword",
+    "value": "RES"
+  },
+  {
+    "type": "parenthesis",
+    "value": ")"
+  },
+  {
+    "type": "parenthesis",
+    "value": "("
+  },
+  {
+    "type": "parenthesis",
+    "value": "("
+  },
+  {
+    "type": "int",
+    "value": "0"
+  },
+  {
+    "type": "keyword",
+    "value": "RES"
+  },
+  {
+    "type": "parenthesis",
+    "value": ")"
+  },
+  {
+    "type": "float",
+    "value": "1.0"
+  },
+  {
+    "type": "operator",
+    "value": "+"
+  },
+  {
+    "type": "parenthesis",
+    "value": ")"
+  },
+  {
+    "type": "parenthesis",
+    "value": "("
+  },
+  {
+    "type": "float",
+    "value": "7.0"
+  },
+  {
+    "type": "mem_write",
+    "value": "MEM"
+  },
+  {
+    "type": "parenthesis",
+    "value": ")"
+  },
+  {
+    "type": "parenthesis",
+    "value": "("
+  },
+  {
+    "type": "mem_read",
+    "value": "MEM"
+  },
+  {
+    "type": "parenthesis",
+    "value": ")"
+  },
+  {
+    "type": "parenthesis",
+    "value": "("
+  },
+  {
+    "type": "parenthesis",
+    "value": "("
+  },
+  {
+    "type": "mem_read",
+    "value": "MEM"
+  },
+  {
+    "type": "float",
+    "value": "3.0"
+  },
+  {
+    "type": "operator",
+    "value": "*"
+  },
+  {
+    "type": "parenthesis",
+    "value": ")"
+  },
+  {
+    "type": "float",
+    "value": "2.0"
+  },
+  {
+    "type": "operator",
+    "value": "+"
+  },
+  {
+    "type": "parenthesis",
+    "value": ")"
+  },
+  {
+    "type": "parenthesis",
+    "value": "("
+  },
+  {
+    "type": "parenthesis",
+    "value": "("
+  },
+  {
+    "type": "mem_read",
+    "value": "MEM"
+  },
+  {
+    "type": "float",
+    "value": "2.0"
+  },
+  {
+    "type": "operator",
+    "value": "+"
+  },
+  {
+    "type": "parenthesis",
+    "value": ")"
+  },
+  {
+    "type": "mem_write",
+    "value": "MEM"
+  },
+  {
+    "type": "operator",
+    "value": "*"
+  },
+  {
+    "type": "parenthesis",
+    "value": ")"
+  },
+  {
+    "type": "parenthesis",
+    "value": "("
+  },
+  {
+    "type": "float",
+    "value": "5.0"
+  },
+  {
+    "type": "float",
+    "value": "2.0"
+  },
+  {
+    "type": "operator",
+    "value": "+"
+  },
+  {
+    "type": "parenthesis",
+    "value": ")"
+  },
+  {
+    "type": "parenthesis",
+    "value": "("
+  },
+  {
+    "type": "int",
+    "value": "0"
+  },
+  {
+    "type": "keyword",
+    "value": "RES"
+  },
+  {
+    "type": "parenthesis",
+    "value": ")"
+  },
+  {
+    "type": "parenthesis",
+    "value": "("
+  },
+  {
+    "type": "parenthesis",
+    "value": "("
+  },
+  {
+    "type": "int",
+    "value": "0"
+  },
+  {
+    "type": "keyword",
+    "value": "RES"
+  },
+  {
+    "type": "parenthesis",
+    "value": ")"
+  },
+  {
+    "type": "float",
+    "value": "2.0"
+  },
+  {
+    "type": "operator",
+    "value": "*"
+  },
+  {
+    "type": "parenthesis",
+    "value": ")"
+  }
+]

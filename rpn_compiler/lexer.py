@@ -1,7 +1,7 @@
 # Integrantes (ordem alfabética):
 #   Johan Recaman - johanrecaman
 #   Nicole Guarnieri - nick11nic
-# Grupo: (alterar para o nome do grupo no Canvas)
+# Grupo: ra1-55
 
 from dataclasses import dataclass
 from enum import Enum
