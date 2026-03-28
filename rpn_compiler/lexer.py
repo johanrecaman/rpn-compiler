@@ -1,6 +1,10 @@
+# Integrantes (ordem alfabética):
+#   Johan Recaman - johanrecaman
+#   Nicole Guarnieri - nick11nic
+# Grupo: (alterar para o nome do grupo no Canvas)
+
 from dataclasses import dataclass
 from enum import Enum
-
 
 class TokenType(Enum):
     FLOAT = "float"
@@ -9,6 +13,8 @@ class TokenType(Enum):
     PARENTHESIS = "parenthesis"
     KEYWORD = "keyword"
     MEM = "mem"
+    MEM_READ = "mem_read"   # (MEM) — leitura sem valor anterior
+    MEM_WRITE = "mem_write" # (V MEM) — escrita com valor anterior
     ERROR = "error"
 
 @dataclass
@@ -16,12 +22,9 @@ class Token:
     token_type: TokenType
     value: str
 
-
 def save_token(token_type, value, tokens):
     tokens.append(Token(token_type, value))
 
-#(2.12 4 +)
-#buffer:
 def initial_state(char, buffer, tokens):
     match char:
         case "(" | ")":
@@ -33,6 +36,8 @@ def initial_state(char, buffer, tokens):
         case "/":
             buffer.append(char)
             return slash_state
+        case " " | "\t":
+            return initial_state
         case _:
             if char.isdigit():
                 buffer.append(char)
@@ -40,10 +45,8 @@ def initial_state(char, buffer, tokens):
             if char.isupper():
                 buffer.append(char)
                 return letter_state
-            if char != " ":
-                buffer.append(char)
-                return error_state
-            return initial_state
+            buffer.append(char)
+            return error_state
 
 
 def operator_state(char, buffer, tokens):
@@ -59,14 +62,14 @@ def parenthesis_state(char, buffer, tokens):
 
 
 def slash_state(char, buffer, tokens):
-    if char != buffer[0]:
-        save_token(TokenType.OPERATOR, buffer[0], tokens)
+    if char == "/":
+        buffer.append(char)
+        save_token(TokenType.OPERATOR, "".join(buffer), tokens)
         buffer.clear()
-        return initial_state(char, buffer, tokens)
-    buffer.append(char)
-    save_token(TokenType.OPERATOR, "".join(buffer), tokens)
+        return initial_state  # próximo char ainda não chegou — aguarda
+    save_token(TokenType.OPERATOR, buffer[0], tokens)
     buffer.clear()
-    return initial_state
+    return initial_state(char, buffer, tokens)
 
 
 def integer_state(char, buffer, tokens):
@@ -81,33 +84,44 @@ def integer_state(char, buffer, tokens):
     return initial_state(char, buffer, tokens)
 
 
-def float_state(char, buffer, tokens):
-    if char == ".":
-        buffer.append(char)
-        return error_state
+def dot_state(char, buffer, tokens):
     if char.isdigit():
         buffer.append(char)
         return float_state
+    save_token(TokenType.ERROR, "".join(buffer), tokens)
+    buffer.clear()
+    return initial_state(char, buffer, tokens)
+
+
+def float_state(char, buffer, tokens):
+    if char.isdigit():
+        buffer.append(char)
+        return float_state
+    if char == ".":
+        # Segundo ponto: número malformado (ex: 3.14.5)
+        buffer.append(char)
+        return error_float_state
     save_token(TokenType.FLOAT, "".join(buffer), tokens)
     buffer.clear()
     return initial_state(char, buffer, tokens)
 
 
-def dot_state(char, buffer, tokens):
-    if not char.isdigit():
+def error_float_state(char, buffer, tokens):
+    if char.isdigit() or char == ".":
         buffer.append(char)
-        return error_state
-    buffer.append(char)
-    return float_state
+        return error_float_state
+    save_token(TokenType.ERROR, "".join(buffer), tokens)
+    buffer.clear()
+    return initial_state(char, buffer, tokens)
 
 
 def letter_state(char, buffer, tokens):
     if char.isupper():
         buffer.append(char)
         return letter_state
-    if char.islower():
+    if char.islower() or char.isdigit():
         buffer.append(char)
-        return error_state
+        return error_identifier_state
     word = "".join(buffer)
     if word == "RES":
         save_token(TokenType.KEYWORD, word, tokens)
@@ -117,16 +131,65 @@ def letter_state(char, buffer, tokens):
     return initial_state(char, buffer, tokens)
 
 
+def error_identifier_state(char, buffer, tokens):
+    if char.isalnum():
+        buffer.append(char)
+        return error_identifier_state
+    save_token(TokenType.ERROR, "".join(buffer), tokens)
+    buffer.clear()
+    return initial_state(char, buffer, tokens)
+
+
 def error_state(char, buffer, tokens):
     save_token(TokenType.ERROR, "".join(buffer), tokens)
     buffer.clear()
-    return error_state
+    return initial_state(char, buffer, tokens)
 
-def parseExpressao(line, tokens):
+def _resolve_mem_semantics(tokens):
+    result = []
+    for i, tok in enumerate(tokens):
+        if tok.token_type != TokenType.MEM:
+            result.append(tok)
+            continue
+
+        prev_relevant = None
+        for j in range(i - 1, -1, -1):
+            if tokens[j].token_type != TokenType.PARENTHESIS:
+                prev_relevant = tokens[j]
+                break
+
+        if prev_relevant and prev_relevant.token_type in (
+            TokenType.INT, TokenType.FLOAT,
+            TokenType.OPERATOR, TokenType.MEM_READ,
+        ):
+            result.append(Token(TokenType.MEM_WRITE, tok.value))
+        else:
+            result.append(Token(TokenType.MEM_READ, tok.value))
+
+    return result
+
+
+def parseExpressao(linha, tokens):
     buffer = []
     state = initial_state
-    for char in line + " ":
+
+    for char in linha + " ":
         state = state(char, buffer, tokens)
-    parens = sum(1 if t.value == '(' else -1 for t in tokens if t.token_type == TokenType.PARENTHESIS)
-    if parens != 0:
-        save_token(TokenType.ERROR, 'parenthesis', tokens)
+
+    balance = 0
+    paren_error = False
+    for t in tokens:
+        if t.token_type == TokenType.PARENTHESIS:
+            if t.value == "(":
+                balance += 1
+            else:
+                balance -= 1
+                if balance < 0:
+                    paren_error = True
+                    break
+    if paren_error or balance != 0:
+        save_token(TokenType.ERROR, "unbalanced_parenthesis", tokens)
+
+    resolved = _resolve_mem_semantics(tokens)
+    tokens.clear()
+    tokens.extend(resolved)
